@@ -1,0 +1,113 @@
+@font-face{
+    font-family: proxima-nova;
+    src: url(https://use.typekit.net/af/576d53/00000000000000003b9b3066/27/l?subset_id=2&fvd=n6&v=3);
+  }
+
+
+body{
+    background-color: white;
+}
+
+.navbar {
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top:1%;
+    padding-bottom: 1%;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: black;
+    transition: 0.5s;
+}
+
+.navbar-nav{
+    text-decoration: none;
+}
+
+
+.btn-custom1{
+    width: 6.5rem;
+    height: 2.5rem;
+    background-color: #007BFF;
+    font-family: proxima-nova;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom2{
+    width: 6.5rem;
+    height: 2.5rem;
+    background-color: whitesmoke;
+    color: #202942;
+    font-family: proxima-nova;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom2:hover{
+    background-color: #007BFF;
+}
+
+.add-shadow{
+    transition: 0.5s;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
+    background-color: rgba(255, 255, 255, 0.98)
+}
+
+.dropdown-toggle,
+    .dropdown-menu {
+        border-radius: 5px !important;
+    }
+    .dropdown-item:hover {
+        color: white;
+        background-color: #007BFF;
+        transition: 0.5s;
+    }
+    .btn-danger {
+        width: 55%;
+    }
+    .dropdown:hover>.dropdown-menu {
+      display: block;
+    }
+
+    
+    .fa {
+        padding: 20px;
+        font-size: 30px;
+        width: 71px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        border-radius: 50%;
+        opacity:0.5;
+        color: white;
+        transition: 0.3s;
+        margin-bottom:20px;
+      }
+      
+      .fa:hover {
+        color: white;
+          opacity: 1;
+        text-decoration: none;
+      }
+      
+      .fa-facebook {
+        background: #3B5998;
+        color: white;
+      }
+
+      .fa-map-marker {
+        background: #dd4b39;
+        color: white;
+      }
+      
+      .fa-instagram {
+        background: #125688;
+        color: white;
+      }
+      
+      .fa-whatsapp {
+        background: #00DF72;
+        color: white;
+      }
+      
