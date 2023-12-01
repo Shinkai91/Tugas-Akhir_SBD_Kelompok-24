@@ -32,30 +32,45 @@
 
     <div class="container" style="max-width:1200px;margin-top:3%;margin-bottom:10%" data-aos="fade-up">
         <div class="row justify-content-center">
-            @foreach ($data_baju as $baju)
-                @if ($baju->stok !== 0)
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <form method="post" action="{{ route('user.productorder') }}">
-                                @csrf
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $baju->nama_baju }}</h5>
-                                    <p class="card-text">Harga: {{ $baju->harga }}</p>
-                                    <input type="hidden" name="ID_Baju" value="{{ $baju->ID_Baju }}">
-                                    <div class="form-group">
-                                        <label for="quantity">Quantity:</label>
-                                        <input type="number" name="quantity" class="form-control" value="1"
-                                            min="1" max="{{ $baju->stok }}">
+            <!-- Search bar form -->
+            <form class="form-inline mb-4 justify-content-center">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                    name="search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="row justify-content-left">
+            @if (count($data_baju) > 0)
+                @foreach ($data_baju as $baju)
+                    @if ($baju->stok !== 0)
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <form method="post" action="{{ route('user.productorder') }}">
+                                    @csrf
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $baju->nama_baju }}</h5>
+                                        <p class="card-text">Harga: {{ $baju->harga }}</p>
+                                        <input type="hidden" name="ID_Baju" value="{{ $baju->ID_Baju }}">
+                                        <div class="form-group">
+                                            <label for="quantity">Quantity:</label>
+                                            <input type="number" name="quantity" class="form-control" value="1"
+                                                min="1" max="{{ $baju->stok }}">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-custom1"
+                                            style="width:150px">Add
+                                            to Cart</button>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-custom1" style="width:150px">Add
-                                        to
-                                        Cart</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                @endif
-            @endforeach
+                    @endif
+                @endforeach
+            @else
+                <div class="col-md-12">
+                    <p>No matching results found.</p>
+                </div>
+            @endif
         </div>
     </div>
 

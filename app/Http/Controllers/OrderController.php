@@ -18,7 +18,15 @@ class OrderController extends Controller
         if (!$r->session()->has('username') || $role_check !== 'user') {
             return redirect(route('user.login.view'));
         }
-        $data = \DB::select("SELECT * FROM baju");
+
+        $search = $r->input('search');
+
+        $query = "SELECT * FROM baju";
+        if ($search) {
+            $query .= " WHERE nama_baju LIKE '%$search%'";
+        }
+
+        $data = \DB::select($query);
 
         return view('user.order', [
             'data_baju' => $data
@@ -263,13 +271,21 @@ class OrderController extends Controller
         }
 
         $userId = session()->get('id');
+        $search = $r->input('search');
 
-        $data = \DB::select("
-            SELECT transaksi.*, baju.nama_baju
-            FROM transaksi
-            JOIN baju ON transaksi.ID_Baju = baju.ID_Baju
-            WHERE ID_Pelanggan = ?
-        ", [$userId]);
+        $query = "
+        SELECT transaksi.*, baju.nama_baju
+        FROM transaksi
+        JOIN baju ON transaksi.ID_Baju = baju.ID_Baju
+        WHERE ID_Pelanggan = ?";
+
+        if ($search) {
+            $query .= " AND baju.nama_baju LIKE '%$search%'";
+        }
+
+        \Log::info("SQL Query: " . $query);
+
+        $data = \DB::select($query, [$userId]);
 
         return view('user.status', [
             'data' => $data
@@ -284,12 +300,19 @@ class OrderController extends Controller
             return redirect(route('admin.login.view'));
         }
 
-        $data = \DB::select("
-            SELECT transaksi.*, b1.nama_baju, pelanggan.Nama
-            FROM transaksi
-            JOIN baju AS b1 ON transaksi.ID_Baju = b1.ID_Baju
-            JOIN pelanggan ON transaksi.ID_Pelanggan = pelanggan.ID_Pelanggan
-        ");
+        $search = $r->input('search');
+
+        $query = "
+        SELECT transaksi.*, b1.nama_baju, pelanggan.Nama
+        FROM transaksi
+        JOIN baju AS b1 ON transaksi.ID_Baju = b1.ID_Baju
+        JOIN pelanggan ON transaksi.ID_Pelanggan = pelanggan.ID_Pelanggan";
+
+        if ($search) {
+            $query .= " WHERE b1.nama_baju LIKE '%$search%' OR pelanggan.Nama LIKE '%$search%'";
+        }
+
+        $data = \DB::select($query);
 
         return view('admin.order.data', [
             'data' => $data

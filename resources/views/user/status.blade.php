@@ -31,41 +31,52 @@
     </nav>
 
     <div class="container" style="max-width:1200px;margin-top:3%;margin-bottom:10%" data-aos="fade-up">
-        <div class="container-fluid">
-            <div class="table-responsive">
-                <h2>History</h2>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Baju</th>
-                            <th>Tanggal</th>
-                            <th>Jumlah</th>
-                            <th>Total Harga</th>
-                            <th>Alamat</th>
-                            <th>Metode Pembayaran</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($data as $key => $item)
+        <div class="row justify-content-center">
+            <form class="form-inline mb-4 justify-content-center">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                    name="search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="row justify-content-center">
+            <div class="container-fluid">
+                <div class="table-responsive">
+                    <h2>History</h2>
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $item->nama_baju }}</td>
-                                <td>{{ $item->tanggal }}</td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td>{{ $item->total_harga }}</td>
-                                <td>{{ $item->alamat }}</td>
-                                <td>{{ $item->metode_pembayaran }}</td>
-                                <td>{{ $item->status }}</td>
+                                <th>No</th>
+                                <th>Nama Baju</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
+                                <th>Total Harga</th>
+                                <th>Alamat</th>
+                                <th>Metode Pembayaran</th>
+                                <th>Status</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="14">Your cart is empty.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($data as $key => $item)
+                                @if ($item->status !== null)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->nama_baju }}</td>
+                                        <td>{{ $item->tanggal }}</td>
+                                        <td>{{ $item->jumlah }}</td>
+                                        <td>{{ $item->total_harga }}</td>
+                                        <td>{{ $item->alamat }}</td>
+                                        <td>{{ $item->metode_pembayaran }}</td>
+                                        <td>{{ $item->status }}</td>
+                                    </tr>
+                                @endif
+                            @empty
+                                <tr>
+                                    <td colspan="14">Your History is Empty.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

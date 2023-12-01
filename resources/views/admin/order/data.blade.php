@@ -16,22 +16,34 @@
     <nav class="navbar navbar-light sticky-top justify-content-between" id="navbar">
         <a class="navbar-brand font-weight-bold" style="color:#3C4858;">Store <span class="text-info">Baju</span></a>
         <form class="form-inline">
-            <a class="nav-link" href="/admin">Home</a>
-            <a class="nav-link" href="/admin/user">Data Users</a>
-            <a class="nav-link" href="/admin/baju">Data Baju</a>
-            <a class="nav-link" href="/admin/order">Data Orders</a>
-            <a class="nav-link" href="/logout">Logout</a>
-            <a class="nav-link" style="color:#3C4858; font-family: 'Roboto', sans-serif; font-weight: bold;"
-                href="/admin">{{ session()->get('nama') }}</a>
+            <a class="nav-link" href="/admin" style="font-size: 20px; color: #3C4858; margin-right: 15px">Home</a>
+            <a class="nav-link" href="/admin/user" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Users</a>
+            <a class="nav-link" href="/admin/baju" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Baju</a>
+            <a class="nav-link" href="/admin/order" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Orders</a>
+            <a class="nav-link" href="/logout" style="font-size: 20px; color: #3C4858; margin-right: 15px">Logout</a>
+            <a class="nav-link" href="/admin"
+                style="color:#0e56b6; text-decoration:none; font-size: 20px">{{ session()->get('nama') }}</a>
         </form>
     </nav>
-
+f
     <div class="container">
         <div class="row align-items-center text-center">
             <div class="col-lg-12">
                 <h1 class="heading mb-3">Data Order</h1>
             </div>
         </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Search bar form -->
+        <form class="form-inline mb-4 justify-content-center">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                name="search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </div>
 
     <div class="container-fluid">

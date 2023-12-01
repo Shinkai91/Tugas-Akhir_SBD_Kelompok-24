@@ -16,7 +16,16 @@ class BajuController extends Controller
             return redirect(route('admin.login.view'));
         }
 
-        $data = \DB::select("SELECT * FROM baju");
+        $search = $r->input('search');
+
+        $query = "SELECT * FROM baju";
+
+        if ($search) {
+            $query .= " WHERE nama_baju LIKE '%$search%'";
+        }
+
+        $data = \DB::select($query);
+
         return view('admin.baju.data', [
             'data_baju' => $data
         ]);
