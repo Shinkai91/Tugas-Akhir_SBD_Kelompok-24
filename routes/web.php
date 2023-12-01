@@ -55,7 +55,8 @@ Route::get('/admin/user','UserController@ViewAdminUser')->name('admin.home.user'
 Route::get('/admin/user/delete/{id}','UserController@DeleteUser')->name('admin.home.user.delete');
 Route::get('/admin/user/edit/{id}','UserController@EditUser')->name('admin.home.user.edit');
 Route::post('/admin/user/update','UserController@Updateuser')->name('admin.home.user.update');
-Route::get('/admin/user/hardelete', 'UserController@hardDeleteAll')->name('admin.home.user.hardelete');
+Route::get('/admin/user/hardelete', 'UserController@HardDeleteAll')->name('admin.home.user.hardelete');
+Route::get('/admin/user/restore', 'UserController@RestoreAll')->name('admin.home.user.restore');
 
 #ADMIN (BAJU)
 Route::get('/admin/baju','BajuController@ViewBaju')->name('admin.home.baju');
@@ -64,6 +65,7 @@ Route::get('/admin/baju/delete/{id}','BajuController@DeleteBaju')->name('admin.h
 Route::get('/admin/baju/edit/{id}','BajuController@EditBaju')->name('admin.home.baju.edit');
 Route::post('/admin/baju/update','BajuController@UpdateBaju')->name('admin.home.baju.update');
 Route::get('/admin/baju/hardelete', 'BajuController@hardDeleteAll')->name('admin.home.baju.hardelete');
+Route::get('/admin/baju/restore', 'BajuController@RestoreAll')->name('admin.home.baju.restore');
 
 #LOGOUT
 Route::get('/logout','LoginController@logout')->name('logout');

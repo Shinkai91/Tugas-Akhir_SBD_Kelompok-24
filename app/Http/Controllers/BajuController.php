@@ -137,4 +137,34 @@ class BajuController extends Controller
 
         return redirect()->route('admin.home.baju');
     }
+
+    public function RestoreAll(Request $request)
+    {
+        try {
+            $successFlag = false;
+
+            $deletedRecords = \DB::select("
+                SELECT *
+                FROM baju
+                WHERE deleted_at IS NOT NULL
+                ORDER BY deleted_at ASC
+            ");
+
+            foreach ($deletedRecords as $record) {
+                Baju::withTrashed()->find($record->ID_Baju)->restore();
+                $successFlag = true;
+                break;
+            }
+
+            if ($successFlag) {
+                Alert::success('Restore Berhasil');
+            } else {
+                Alert::error('Tidak ada data yang dapat direstore');
+            }
+        } catch (\Exception $e) {
+            Alert::error('Baju Tidak Ditemukan');
+        }
+
+        return redirect()->route('admin.home.baju');
+    }
 }

@@ -67,6 +67,7 @@
 
     <div class="container-fluid">
         <div class="container-fluid d-flex justify-content-end">
+            <a class="btn btn-danger mb-1" style="width:120px; margin-right: 5px;" href="/admin/baju/restore">Restore</a>
             <a class="btn btn-danger mb-1" style="width:120px;" href="/admin/baju/hardelete">Hard Delete</a>
         </div>
         <div class="table-responsive">

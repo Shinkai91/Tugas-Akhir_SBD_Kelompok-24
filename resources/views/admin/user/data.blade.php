@@ -17,11 +17,15 @@
         <a class="navbar-brand font-weight-bold" style="color:#3C4858;">Store <span class="text-info">Baju</span></a>
         <form class="form-inline">
             <a class="nav-link" href="/admin" style="font-size: 20px; color: #3C4858; margin-right: 15px">Home</a>
-            <a class="nav-link" href="/admin/user" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data Users</a>
-            <a class="nav-link" href="/admin/baju" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data Baju</a>
-            <a class="nav-link" href="/admin/order" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data Orders</a>
+            <a class="nav-link" href="/admin/user" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Users</a>
+            <a class="nav-link" href="/admin/baju" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Baju</a>
+            <a class="nav-link" href="/admin/order" style="font-size: 20px; color: #3C4858; margin-right: 15px">Data
+                Orders</a>
             <a class="nav-link" href="/logout" style="font-size: 20px; color: #3C4858; margin-right: 15px">Logout</a>
-            <a class="nav-link" href="/admin" style="color:#0e56b6; text-decoration:none; font-size: 20px">{{ session()->get('nama') }}</a>
+            <a class="nav-link" href="/admin"
+                style="color:#0e56b6; text-decoration:none; font-size: 20px">{{ session()->get('nama') }}</a>
         </form>
     </nav>
 
@@ -35,13 +39,14 @@
     <div class="row justify-content-center">
         <!-- Search bar form -->
         <form class="form-inline mb-4 justify-content-center">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                name="search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
     <div class="container-fluid">
         <div class="container-fluid d-flex justify-content-end">
+            <a class="btn btn-danger mb-1" style="width:120px; margin-right: 5px;"
+                href="/admin/user/restore">Restore</a>
             <a class="btn btn-danger mb-1" style="width:120px;" href="/admin/user/hardelete">Hard Delete</a>
         </div>
         <div class="table-responsive">
@@ -54,10 +59,13 @@
                     <th>Alamat</th>
                     <th>Opsi</th>
                 </tr>
+                @php
+                    $number = 1;
+                @endphp
                 @foreach ($data_user as $key => $data)
                     @if ($data->deleted_at === null)
                         <tr class="text-center">
-                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $number }}</td>
                             <td>{{ $data->Nama }}</td>
                             <td>{{ $data->username }}</td>
                             <td>{{ $data->no_telp }}</td>
@@ -68,6 +76,9 @@
                                     href="/admin/user/delete/{{ $data->ID_Pelanggan }}">Soft Delete</a>
                             </td>
                         </tr>
+                        @php
+                            $number++;
+                        @endphp
                     @endif
                 @endforeach
             </table>

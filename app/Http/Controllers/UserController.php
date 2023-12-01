@@ -122,7 +122,7 @@ class UserController extends Controller
         return redirect(route('admin.home.user'));
     }
 
-    public function hardDeleteAll(Request $request)
+    public function HardDeleteAll(Request $request)
     {
         try {
             $softDeletedRecords = Pelanggan::onlyTrashed()->get();
@@ -139,6 +139,36 @@ class UserController extends Controller
                 Alert::success('Hard Delete Berhasil');
             } else {
                 Alert::error('Hard Delete Gagal');
+            }
+        } catch (\Exception $e) {
+            Alert::error('User Tidak Ditemukan');
+        }
+
+        return redirect()->route('admin.home.user');
+    }
+
+    public function RestoreAll(Request $request)
+    {
+        try {
+            $successFlag = false;
+
+            $deletedRecords = \DB::select("
+                SELECT *
+                FROM pelanggan
+                WHERE deleted_at IS NOT NULL
+                ORDER BY deleted_at ASC
+            ");
+
+            foreach ($deletedRecords as $record) {
+                Pelanggan::withTrashed()->find($record->ID_Pelanggan)->restore();
+                $successFlag = true;
+                break;
+            }
+
+            if ($successFlag) {
+                Alert::success('Restore Berhasil');
+            } else {
+                Alert::error('Tidak ada data yang dapat direstore');
             }
         } catch (\Exception $e) {
             Alert::error('User Tidak Ditemukan');
