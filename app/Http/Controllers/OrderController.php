@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Baju;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Alert;
@@ -40,27 +38,26 @@ class OrderController extends Controller
             'quantity' => 'required|numeric|min:1',
         ]);
 
-        $baju = Baju::find($request->ID_Baju);
-        $totalHarga = $baju->harga * $request->quantity;
-
         // Retrieve user ID from the session
         $userId = session()->get('id');
 
-        // Create a transaction
-        $transaction = new Transaction([
-            'ID_Pelanggan' => $userId,
-            'ID_Baju' => $request->ID_Baju,
-            'tanggal' => now(),
-            'jumlah' => $request->quantity,
-            'total_harga' => $totalHarga,
-            'alamat' => 'NULL',
-            'metode_pembayaran' => 'NULL',
-        ]);
+        // Retrieve Baju details using raw SQL query
+        $baju = DB::selectOne("SELECT * FROM baju WHERE ID_Baju = ?", [$request->ID_Baju]);
 
-        $transaction->save();
+        // Calculate total harga
+        $totalHarga = $baju->harga * $request->quantity;
 
+        // Create a transaction using raw SQL query
+        DB::insert("
+        INSERT INTO transactions (ID_Pelanggan, ID_Baju, tanggal, jumlah, total_harga, alamat, metode_pembayaran)
+        VALUES (?, ?, NOW(), ?, ?, 'NULL', 'NULL')
+    ", [$userId, $request->ID_Baju, $request->quantity, $totalHarga]);
+
+        // Display success message using any method you prefer
+        // For example, you can use Laravel's built-in Alert facade
         Alert::success('Success', 'Item added to cart successfully.');
 
+        // Redirect back
         return redirect()->back();
     }
 
@@ -297,7 +294,8 @@ class OrderController extends Controller
         SELECT transaksi.*, b1.nama_baju, pelanggan.Nama
         FROM transaksi
         JOIN baju AS b1 ON transaksi.ID_Baju = b1.ID_Baju
-        JOIN pelanggan ON transaksi.ID_Pelanggan = pelanggan.ID_Pelanggan";
+        JOIN pelanggan ON transaksi.ID_Pelanggan = pelanggan.ID_Pelanggan
+        WHERE transaksi.status IS NOT NULL";
 
         if ($search) {
             $query .= " WHERE b1.nama_baju LIKE '%$search%' OR pelanggan.Nama LIKE '%$search%'";
