@@ -49,7 +49,7 @@ class OrderController extends Controller
 
         // Create a transaction using raw SQL query
         DB::insert("
-        INSERT INTO transactions (ID_Pelanggan, ID_Baju, tanggal, jumlah, total_harga, alamat, metode_pembayaran)
+        INSERT INTO transaksi (ID_Pelanggan, ID_Baju, tanggal, jumlah, total_harga, alamat, metode_pembayaran)
         VALUES (?, ?, NOW(), ?, ?, 'NULL', 'NULL')
     ", [$userId, $request->ID_Baju, $request->quantity, $totalHarga]);
 

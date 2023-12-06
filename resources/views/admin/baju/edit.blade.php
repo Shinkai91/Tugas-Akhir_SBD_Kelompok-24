@@ -9,13 +9,13 @@
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>Edit Laptop</title>
+    <title>Edit Baju</title>
 </head>
 
 <body style="height:100%">
     <nav class="navbar navbar-light sticky-top justify-content-between" id="navbar">
         <a class="navbar-brand font-weight-bold" style="color:#3C4858;" data-aos="fade-right"
-            data-aos-duration="3000">Rental <span class="text-info">Laptop</span></a>
+            data-aos-duration="3000">Store <span class="text-info">Baju</span></a>
     </nav>
 
     <div class="container" style="max-width:65%;margin-top:3%;">
