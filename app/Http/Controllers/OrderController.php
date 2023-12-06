@@ -189,12 +189,6 @@ class OrderController extends Controller
 
         $userId = session()->get('id');
 
-        // $totalHarga = \DB::table('transaksi')
-        //     ->select(\DB::raw('SUM(total_harga) as total_harga'))
-        //     ->where('ID_Pelanggan', $userId)
-        //     ->whereNull('deleted_at')
-        //     ->first();
-
         $totalHarga = \DB::select("
             SELECT SUM(total_harga) AS total_harga
             FROM transaksi
@@ -202,7 +196,7 @@ class OrderController extends Controller
         ", [$userId])[0];
 
         $data = \DB::table('transaksi')
-            ->select('alamat', 'metode_pembayaran', \DB::raw('SUM(total_harga) as total_harga'))
+            ->select('alamat', 'metode_pembayaran')
             ->where('ID_Pelanggan', $userId)
             ->whereNull('deleted_at')
             ->groupBy('alamat', 'metode_pembayaran')
@@ -211,9 +205,6 @@ class OrderController extends Controller
         if (!$data) {
             return redirect(route('user.keranjang'));
         }
-
-        // Log the totalHarga
-        Log::info('Total Harga: ' . $totalHarga->total_harga);
 
         return view('user.checkout', [
             'data' => $data,

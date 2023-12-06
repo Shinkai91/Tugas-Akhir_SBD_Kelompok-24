@@ -35,7 +35,7 @@ Route::post('/user/product-order', 'OrderController@ProductOrder')->name('user.p
 Route::get('/user/order/edit/{id}','OrderController@EditTransactionOrder')->name('user.editkeranjang');
 Route::post('/user/order/update','OrderController@UpdateTransactionOrder')->name('user.order.update');
 Route::get('/user/order/delete/{id}','OrderController@DeleteTransactionOrder')->name('user.order.delete');
-Route::get('/user/check','OrderController@EditTransactionCheck')->name('user.checkout');
+Route::get('/user/check', 'OrderController@EditTransactionCheck')->name('user.checkout');
 Route::post('/user/checkout','OrderController@UpdateTransactionCheck')->name('user.check');
 Route::get('/user/history','OrderController@ViewHistory')->name('user.status');
 
