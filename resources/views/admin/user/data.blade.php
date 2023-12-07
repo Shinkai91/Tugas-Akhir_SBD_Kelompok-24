@@ -72,8 +72,7 @@
                             <td>{{ $data->alamat }}</td>
                             <td>
                                 <a class="btn btn-warning" href="/admin/user/edit/{{ $data->ID_Pelanggan }}">Edit</a>
-                                <a class="btn btn-danger" style="width:100px;"
-                                    href="/admin/user/delete/{{ $data->ID_Pelanggan }}">Soft Delete</a>
+                                <a class="btn btn-danger" style="width:100px;" href="/admin/user/delete/{{ $data->ID_Pelanggan }}">Soft Delete</a>
                             </td>
                         </tr>
                         @php

@@ -89,7 +89,7 @@ f
                         @endphp
                     @empty
                         <tr>
-                            <td colspan="14">Your cart is empty.</td>
+                            <td colspan="14">Your order is empty.</td>
                         </tr>
                     @endforelse
                 </tbody>

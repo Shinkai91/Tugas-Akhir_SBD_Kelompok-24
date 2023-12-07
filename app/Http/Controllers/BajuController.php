@@ -116,27 +116,29 @@ class BajuController extends Controller
     public function hardDeleteAll(Request $request)
     {
         try {
-            $softDeletedRecords = Baju::onlyTrashed()->get();
-            $successFlag = false;
+            $queryStep1 = "DELETE FROM baju WHERE deleted_at IS NOT NULL";
+            $rowsDeleted = \DB::delete($queryStep1);
 
-            foreach ($softDeletedRecords as $record) {
-                if ($record->deleted_at !== null) {
-                    $record->forceDelete();
-                    $successFlag = true; // Set flag to true if at least one record is successfully deleted
-                }
-            }
+            $queryStep2 = "DELETE FROM transaksi 
+                        WHERE ID_Baju IS NOT NULL 
+                        AND NOT EXISTS (
+                        SELECT 1 FROM baju 
+                        WHERE baju.ID_Baju = transaksi.ID_Baju
+                        )";
+            \DB::delete($queryStep2);
 
-            if ($successFlag) {
-                Alert::success('Hard Delete Berhasil');
+            if ($rowsDeleted > 0) {
+                Alert::success('Hard Delete Berhasil', 'Data berhasil dihapus permanen.');
             } else {
-                Alert::error('Hard Delete Gagal');
+                Alert::warning('Tidak ada data yang dihapus secara permanen.', 'Peringatan');
             }
         } catch (\Exception $e) {
-            Alert::error('Baju Tidak Ditemukan');
+            Alert::error('Terjadi kesalahan dalam menghapus data permanen: ' . $e->getMessage());
         }
 
         return redirect()->route('admin.home.baju');
     }
+
 
     public function RestoreAll(Request $request)
     {

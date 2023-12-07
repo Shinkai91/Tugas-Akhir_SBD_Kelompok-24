@@ -122,26 +122,31 @@ class UserController extends Controller
         return redirect(route('admin.home.user'));
     }
 
-    public function HardDeleteAll(Request $request)
+    public function hardDeleteAll(Request $request)
     {
         try {
-            $softDeletedRecords = Pelanggan::onlyTrashed()->get();
-            $successFlag = false;
+            $queryStep1 = "DELETE FROM pelanggan WHERE deleted_at IS NOT NULL";
+            $rowsDeletedStep1 = \DB::delete($queryStep1);
 
-            foreach ($softDeletedRecords as $record) {
-                if ($record->deleted_at !== null) {
-                    $record->forceDelete();
-                    $successFlag = true; // Set flag to true if at least one record is successfully deleted
-                }
-            }
+            \Log::info("Step 2: Deleted $rowsDeletedStep1 rows from pelanggan");
 
-            if ($successFlag) {
-                Alert::success('Hard Delete Berhasil');
+            $queryStep2 = "DELETE FROM transaksi 
+                    WHERE ID_Pelanggan IS NOT NULL 
+                    AND NOT EXISTS (
+                        SELECT 1 FROM pelanggan 
+                        WHERE pelanggan.ID_Pelanggan = transaksi.ID_Pelanggan
+                    )";
+            $rowsDeletedStep2 = \DB::delete($queryStep2);
+
+            \Log::info("Step 1: Deleted $rowsDeletedStep1 rows from transaksi");
+
+            if ($rowsDeletedStep1 > 0) {
+                Alert::success('Hard Delete Berhasil', 'Data berhasil dihapus permanen.');
             } else {
-                Alert::error('Hard Delete Gagal');
+                Alert::warning('Tidak ada data yang dihapus secara permanen.', 'Peringatan');
             }
         } catch (\Exception $e) {
-            Alert::error('User Tidak Ditemukan');
+            Alert::error('Terjadi kesalahan dalam menghapus data permanen: ' . $e->getMessage());
         }
 
         return redirect()->route('admin.home.user');
