@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Alert;
 use App\Models\Baju;
+use PhpParser\Node\Stmt\TryCatch;
 
 class BajuController extends Controller
 {
@@ -113,60 +114,28 @@ class BajuController extends Controller
         return redirect(route('admin.home.baju'));
     }
 
-    public function hardDeleteAll(Request $request)
-    {
-        try {
-            $queryStep1 = "DELETE FROM baju WHERE deleted_at IS NOT NULL";
-            $rowsDeleted = \DB::delete($queryStep1);
-
-            $queryStep2 = "DELETE FROM transaksi 
-                        WHERE ID_Baju IS NOT NULL 
-                        AND NOT EXISTS (
-                        SELECT 1 FROM baju 
-                        WHERE baju.ID_Baju = transaksi.ID_Baju
-                        )";
-            \DB::delete($queryStep2);
-
-            if ($rowsDeleted > 0) {
-                Alert::success('Hard Delete Berhasil', 'Data berhasil dihapus permanen.');
-            } else {
-                Alert::warning('Tidak ada data yang dihapus secara permanen.', 'Peringatan');
-            }
-        } catch (\Exception $e) {
-            Alert::error('Terjadi kesalahan dalam menghapus data permanen: ' . $e->getMessage());
-        }
-
-        return redirect()->route('admin.home.baju');
-    }
-
-
-    public function RestoreAll(Request $request)
-    {
-        try {
+    public function RestoreAll() {
+        Try {
             $successFlag = false;
 
-            $deletedRecords = \DB::select("
-                SELECT *
-                FROM baju
-                WHERE deleted_at IS NOT NULL
-                ORDER BY deleted_at ASC
-            ");
+            $deletedRecords = \DB::select("SELECT * FROM baju WHERE deleted_at IS NOT NULL
+            ORDER BY deleted_at ASC");
 
-            foreach ($deletedRecords as $record) {
+            foreach($deletedRecords as $record) {
                 Baju::withTrashed()->find($record->ID_Baju)->restore();
                 $successFlag = true;
                 break;
             }
 
-            if ($successFlag) {
-                Alert::success('Restore Berhasil');
+            if($successFlag) {
+                Alert::success('Baju Berhasil Direstore');
             } else {
-                Alert::error('Tidak ada data yang dapat direstore');
+                Alert::error('Baju Kosong');
             }
         } catch (\Exception $e) {
-            Alert::error('Baju Tidak Ditemukan');
+            Alert::error('Error');
         }
 
-        return redirect()->route('admin.home.baju');
+        return redirect(route('admin.home.baju'));
     }
 }

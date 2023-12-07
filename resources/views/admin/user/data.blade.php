@@ -44,11 +44,6 @@
         </form>
     </div>
     <div class="container-fluid">
-        <div class="container-fluid d-flex justify-content-end">
-            <a class="btn btn-danger mb-1" style="width:120px; margin-right: 5px;"
-                href="/admin/user/restore">Restore</a>
-            <a class="btn btn-danger mb-1" style="width:120px;" href="/admin/user/hardelete">Hard Delete</a>
-        </div>
         <div class="table-responsive">
             <table class="table table-hover">
                 <tr class="text-center">
@@ -72,7 +67,7 @@
                             <td>{{ $data->alamat }}</td>
                             <td>
                                 <a class="btn btn-warning" href="/admin/user/edit/{{ $data->ID_Pelanggan }}">Edit</a>
-                                <a class="btn btn-danger" style="width:100px;" href="/admin/user/delete/{{ $data->ID_Pelanggan }}">Soft Delete</a>
+                                <a class="btn btn-danger" style="width:100px;" href="/admin/user/delete/{{ $data->ID_Pelanggan }}">Delete</a>
                             </td>
                         </tr>
                         @php
